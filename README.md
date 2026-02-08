@@ -1,6 +1,6 @@
 # Caddy Rating App - Production MVP
-Production mobile app showcasing full-stack development skills.
-**Built in 5 hours** following enterprise development plan. **Live Firebase backend**.
+- Production mobile app showcasing full-stack development skills.
+- **Built in 5 hours** following enterprise development plan. **Live Firebase backend**.
 
 ## 🛠️ Tech Stack
 - Frontend: Expo SDK 51 + React Native + TypeScript + Expo Router
@@ -8,7 +8,7 @@ Production mobile app showcasing full-stack development skills.
 - Deployment: EAS Build ready
 
 ## 📊 Architecture
-Client Rating (5⭐) → Firestore → Cloud Function → Provider Dashboard LIVE
+- Client Rating (5⭐) → Firestore → Cloud Function → Provider Dashboard LIVE
 
 ## ✨ Features
 - Tab-based navigation

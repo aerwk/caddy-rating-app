@@ -1,4 +1,43 @@
-# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Expo
+.expo/
+.expo-shared/
+web-build/
+
+# Firebase (CRITICAL - NEVER COMMIT SECRETS)
+firebaseConfig.js
+*.google-services.json
+GoogleService-Info.plist
+app.json
+
+# Environment
+.env
+.env.local
+.env.development
+.env.production
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Misc
+.DS_Store
+*.bak
+*.tmp# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
 # dependencies
 node_modules/

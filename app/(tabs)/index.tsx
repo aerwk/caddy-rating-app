@@ -1,98 +1,109 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { db } from '../firebaseConfig'; // We'll create this next
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+export default function RatingScreen() {
+const [rating, setRating] = useState(0);
+const [submitting, setSubmitting] = useState(false);
 
-export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+const submitRating = async () => {
+if (rating === 0) return;
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+setSubmitting(true);
+try {
+await addDoc(collection(db, 'ratings'), {
+rating: rating,
+timestamp: serverTimestamp(),
+clientId: 'test-client-123', // Replace with real auth later
+providerId: 'test-provider-456'
+});
+alert(`Rating ${rating}⭐ submitted!`);
+setRating(0);
+} catch (error) {
+alert('Error: ' + error.message);
+}
+setSubmitting(false);
+};
+
+return (
+<View style={styles.container}>
+<Text style={styles.title}>Rate Your Caddy</Text>
+<Text style={styles.subtitle}>Tap a star (0-5)</Text>
+
+<View style={styles.stars}>
+{[1,2,3,4,5].map((star) => (
+<TouchableOpacity key={star} onPress={() => setRating(star)}>
+<Text style={[
+styles.star,
+{ color: star <= rating ? '#ffd700' : '#ccc' }
+]}>
+★
+</Text>
+</TouchableOpacity>
+))}
+</View>
+
+<TouchableOpacity
+style={[styles.button, rating === 0 && styles.buttonDisabled]}
+onPress={submitRating}
+disabled={rating === 0 || submitting}
+>
+<Text style={styles.buttonText}>
+{submitting ? 'Submitting...' : `Submit ${rating}⭐`}
+</Text>
+</TouchableOpacity>
+
+<Text style={styles.info}>Data saves to Firestore "ratings" collection</Text>
+</View>
+);
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
+container: {
+flex: 1,
+justifyContent: 'center',
+alignItems: 'center',
+padding: 40,
+backgroundColor: '#f5f5f5'
+},
+title: {
+fontSize: 28,
+fontWeight: 'bold',
+marginBottom: 10,
+color: '#333'
+},
+subtitle: {
+fontSize: 16,
+color: '#666',
+marginBottom: 30
+},
+stars: {
+flexDirection: 'row',
+marginBottom: 40
+},
+star: {
+fontSize: 60,
+marginHorizontal: 5
+},
+button: {
+backgroundColor: '#1e90ff',
+paddingHorizontal: 30,
+paddingVertical: 15,
+borderRadius: 25,
+marginBottom: 20
+},
+buttonDisabled: {
+backgroundColor: '#ccc'
+},
+buttonText: {
+color: 'white',
+fontSize: 18,
+fontWeight: 'bold'
+},
+info: {
+fontSize: 12,
+color: '#888',
+textAlign: 'center'
+}
 });

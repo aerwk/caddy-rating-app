@@ -20,8 +20,9 @@ git clone https://github.com/aerwk/caddy-rating-app.git
 cd caddy-rating-app
 npm install
 expo start
-📱 Live Demo
+```
 
+## 📱 Live Demo
 Scan QR code or expo start --tunnel
 
 ## 🎯 Purpose

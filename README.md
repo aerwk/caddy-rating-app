@@ -37,11 +37,10 @@ npx expo start
 Client Rating (5⭐) → Firestore → Cloud Function → Provider Dashboard LIVE
 
 ## 🎯 Enterprise Features
-Real-time data sync
-Production Blaze plan scaling
-TypeScript throughout
-Clean Expo Router structure
-Portfolio project for IT transition (CompTIA A+/Network+/CCNA)
+- Real-time data sync
+- Production Blaze plan scaling
+- TypeScript throughout
+- Clean Expo Router structure
 
 ## 📱 Live Demo
 Scan QR code or expo start --tunnel

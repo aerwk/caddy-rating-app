@@ -14,5 +14,15 @@ Production mobile app showcasing full-stack development skills.
 - Professional UI/UX
 - Scalable architecture
 
+## 🚀 Getting Started
+```bash
+git clone https://github.com/aerwk/caddy-rating-app.git
+cd caddy-rating-app
+npm install
+expo start
+📱 Live Demo
+
+Scan QR code or expo start --tunnel
+
 ## 🎯 Purpose
 Portfolio project for IT career transition (CompTIA A+/Network+/CCNA 2026)
